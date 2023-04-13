@@ -16,13 +16,18 @@ import "strconv"
 // file's complete contents. You should ignore the input file name,
 // and look only at the contents argument. The return value is a slice
 // of key/value pairs.
+//传入文件名和文件内容，返回键值对数组
 func Map(filename string, contents string) []mr.KeyValue {
 	// function to detect word separators.
+	//检测单词的分割符
 	ff := func(r rune) bool { return !unicode.IsLetter(r) }
 
 	// split contents into an array of words.
+	//将content根据分割副分割为不同的单词并存入数组之中
 	words := strings.FieldsFunc(contents, ff)
 
+	//kva是键值对数组
+	//kv是键值对
 	kva := []mr.KeyValue{}
 	for _, w := range words {
 		kv := mr.KeyValue{w, "1"}
@@ -36,5 +41,7 @@ func Map(filename string, contents string) []mr.KeyValue {
 // any map task.
 func Reduce(key string, values []string) string {
 	// return the number of occurrences of this word.
+	//返回单词出现的次数，即value数组的长度
+	//返回string类型的数字
 	return strconv.Itoa(len(values))
 }
